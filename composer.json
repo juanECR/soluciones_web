@@ -1,0 +1,16 @@
+{
+    "name": "soluciones_web/juanelias",
+    "description": "proyecto1",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "SolucionesWeb\\Juanelias\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "juan elias cunto romero"
+        }
+    ],
+    "require": {}
+}
