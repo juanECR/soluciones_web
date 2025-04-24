@@ -12,5 +12,7 @@
             "name": "juan elias cunto romero"
         }
     ],
-    "require": {}
+    "require": {
+              "phpmailer/phpmailer": "^6.9"
+    }
 }
