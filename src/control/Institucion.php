@@ -14,6 +14,7 @@ $objUsuario = new UsuarioModel();
 //variables de sesion
 $id_sesion = $_POST['sesion'];
 $token = $_POST['token'];
+
 if ($tipo == "listar") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
@@ -37,6 +38,8 @@ if ($tipo == "listar") {
     }
     echo json_encode($arr_Respuesta);
 }
+
+
 if ($tipo == "listar_instituciones") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
