@@ -1,3 +1,5 @@
+const { cache } = require("react");
+
 function numero_pagina(pagina) {
     document.getElementById('pagina').value = pagina;
     listar_usuariosOrdenados();
