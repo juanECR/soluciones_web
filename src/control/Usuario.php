@@ -1,8 +1,15 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 session_start();
 require_once('../model/admin-sesionModel.php');
 require_once('../model/admin-usuarioModel.php');
 require_once('../model/adminModel.php');
+require  '../../vendor/autoload.php' ;
+
 $tipo = $_GET['tipo'];
 
 //instanciar la clase categoria model
@@ -150,5 +157,43 @@ if($tipo == "sent_email_password"){
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
             $datos_secion = $objSesion->buscarSesionLoginById($id_sesion);
             print_r($datos_secion);
+             //Create an instance; passing `true` enables exceptions
+                $mail = new PHPMailer(true);
+
+                try {
+                    //Server settings
+                    $mail->SMTPDebug = 2;                      //Enable verbose debug output
+                    $mail->isSMTP();                                            //Send using SMTP
+                    $mail->Host       = 'mail.limon-cito.com';                     //Set the SMTP server to send through
+                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                    $mail->Username   = 'sisve_jota@limon-cito.com';                     //SMTP username
+                    $mail->Password   = 'jota123@@JOTA';                               //SMTP password
+                    $mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
+                    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                    //Recipients
+                    $mail->setFrom('sisve_jota@limon-cito.com', 'Jota Mail');
+                    $mail->addAddress('dinergarciacondori64@gmail.com', 'Juan');     //Add a recipient
+                       //Name is optional
+
+
+
+                    //Content
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'Saludos perr@';
+
+                    $file = fopen("../view/BodyEmail.php","r");
+                    $str = fread($file, filesize("../view/BodyEmail.php"));
+                    $str = trim($str);
+                    fclose($file);
+
+                    $mail->Body    = $str;
+                    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+                    $mail->send();
+                    echo 'Enviado correctamente';
+                } catch (Exception $e) {
+                    echo "Error al enviar: {$mail->ErrorInfo}";
+                }
     }
 }

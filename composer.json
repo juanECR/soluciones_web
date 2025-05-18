@@ -1,20 +1,16 @@
 {
-    "name": "soluciones_web/juanelias",
-    "description": "proyecto1",
-    "type": "project",
+    "name": "royal/soluciones_web",
     "autoload": {
         "psr-4": {
-            "SolucionesWeb\\Juanelias\\": "src/"
+            "Royal\\SolucionesWeb\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "juan elias cunto romero"
+            "name": "juanElias"
         }
     ],
     "require": {
-        "phpmailer/phpmailer": "^6.9",
-        "tecnickcom/tcpdf": "^6.9",
-        "phpoffice/phpspreadsheet": "^4.2"
+        "phpmailer/phpmailer": "^6.10"
     }
 }
