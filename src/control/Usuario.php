@@ -173,14 +173,14 @@ if($tipo == "sent_email_password"){
 
                     //Recipients
                     $mail->setFrom('sisve_jota@limon-cito.com', 'Jota Mail');
-                    $mail->addAddress('dinergarciacondori64@gmail.com', 'Juan');     //Add a recipient
+                    $mail->addAddress('evosc17@gmail.com', 'Juan');     //Add a recipient
                        //Name is optional
 
 
 
                     //Content
                     $mail->isHTML(true);                                  //Set email format to HTML
-                    $mail->Subject = 'Saludos perr@';
+                    $mail->Subject = 'Reset Password';
 
                     $file = fopen("../view/BodyEmail.php","r");
                     $str = fread($file, filesize("../view/BodyEmail.php"));
