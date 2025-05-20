@@ -157,7 +157,24 @@ if($tipo == "sent_email_password"){
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
             $datos_secion = $objSesion->buscarSesionLoginById($id_sesion);
             print_r($datos_secion);
+              //obtenemos los datos del usuario mediante el id de la sesion
+               $id_usuario = $datos_secion->id_usuario;
+               $datos_usuario = $objUsuario->buscarUsuarioById($id_usuario);
+                
+                $correo_usuario = $datos_usuario->correo;
+                $nombre_usuario = $datos_usuario->nombres_apellidos;
+
+               
+              
+
+
              //Create an instance; passing `true` enables exceptions
+                //incluimos la plantilla de correo para el body email
+                ob_start();
+                include __DIR__ . '../../view/BodyEmail.php';
+                $emailBody = ob_get_clean();
+                
+                //php mailer
                 $mail = new PHPMailer(true);
 
                 try {
@@ -172,26 +189,26 @@ if($tipo == "sent_email_password"){
                     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                     //Recipients
-                    $mail->setFrom('sisve_jota@limon-cito.com', 'Jota Mail');
-                    $mail->addAddress('evosc17@gmail.com', 'Juan');     //Add a recipient
+                    $mail->setFrom('sisve_jota@limon-cito.com', 'Support Sisve app');
+                    $mail->addAddress($correo_usuario, $nombre_usuario);     //Add a recipient
                        //Name is optional
 
 
 
                     //Content
                     $mail->isHTML(true);                                  //Set email format to HTML
-                    $mail->Subject = 'Reset Password';
+                    $mail->Subject = 'password reset request';
 
-                    $file = fopen("../view/BodyEmail.php","r");
+  /*                   $file = fopen("../view/BodyEmail.php","r");
                     $str = fread($file, filesize("../view/BodyEmail.php"));
                     $str = trim($str);
-                    fclose($file);
+                    fclose($file); */
 
-                    $mail->Body    = $str;
+                    $mail->Body    = $emailBody;
                     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
                     $mail->send();
-                    echo 'Enviado correctamente';
+                    echo 'Correo enviado con éxito.';
                 } catch (Exception $e) {
                     echo "Error al enviar: {$mail->ErrorInfo}";
                 }

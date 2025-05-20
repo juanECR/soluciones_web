@@ -291,8 +291,8 @@ function reset_password(id) {
         }
     });
 }
-async function reniciar_password(id) {
 
+async function reniciar_password(id) {
     // generamos el formulario
     const formData = new FormData();
     formData.append('id', id);
@@ -331,7 +331,5 @@ async function reniciar_password(id) {
     } catch (e) {
         console.log("Error al actualizar periodo" + e);
     }
-
-
 }
 
