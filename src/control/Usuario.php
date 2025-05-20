@@ -156,61 +156,63 @@ if($tipo == "sent_email_password"){
      $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
             $datos_secion = $objSesion->buscarSesionLoginById($id_sesion);
-            print_r($datos_secion);
+
               //obtenemos los datos del usuario mediante el id de la sesion
                $id_usuario = $datos_secion->id_usuario;
                $datos_usuario = $objUsuario->buscarUsuarioById($id_usuario);
+               $correo_usuario = $datos_usuario->correo;
+               $nombre_usuario = $datos_usuario->nombres_apellidos;
                 
-                $correo_usuario = $datos_usuario->correo;
-                $nombre_usuario = $datos_usuario->nombres_apellidos;
+                $llave = $objAdmin->generar_llave(30);
+                $token = password_hash($llave, PASSWORD_DEFAULT);
+                $update = $objUsuario->UpdateResetPassword($id_usuario,$llave,1);
+                if ($update) {
+                            //Create an instance; passing `true` enables exceptions
+                        //incluimos la plantilla de correo para el body email
+                        ob_start();
+                        include __DIR__ . '../../view/BodyEmail.php';
+                        $emailBody = ob_get_clean();
+                        
+                        //php mailer
+                        $mail = new PHPMailer(true);
 
-               
-              
+                        try {
+                            //Server settings
+                            $mail->SMTPDebug = 2;                      //Enable verbose debug output
+                            $mail->isSMTP();                                            //Send using SMTP
+                            $mail->Host       = 'mail.limon-cito.com';                     //Set the SMTP server to send through
+                            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                            $mail->Username   = 'sisve_jota@limon-cito.com';                     //SMTP username
+                            $mail->Password   = 'jota123@@JOTA';                               //SMTP password
+                            $mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
+                            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-
-             //Create an instance; passing `true` enables exceptions
-                //incluimos la plantilla de correo para el body email
-                ob_start();
-                include __DIR__ . '../../view/BodyEmail.php';
-                $emailBody = ob_get_clean();
-                
-                //php mailer
-                $mail = new PHPMailer(true);
-
-                try {
-                    //Server settings
-                    $mail->SMTPDebug = 2;                      //Enable verbose debug output
-                    $mail->isSMTP();                                            //Send using SMTP
-                    $mail->Host       = 'mail.limon-cito.com';                     //Set the SMTP server to send through
-                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                    $mail->Username   = 'sisve_jota@limon-cito.com';                     //SMTP username
-                    $mail->Password   = 'jota123@@JOTA';                               //SMTP password
-                    $mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
-                    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-                    //Recipients
-                    $mail->setFrom('sisve_jota@limon-cito.com', 'Support Sisve app');
-                    $mail->addAddress($correo_usuario, $nombre_usuario);     //Add a recipient
-                       //Name is optional
+                            //Recipients
+                            $mail->setFrom('sisve_jota@limon-cito.com', 'Support Sisve app');
+                            $mail->addAddress($correo_usuario, $nombre_usuario);     //Add a recipient
+                            //Name is optional
 
 
 
-                    //Content
-                    $mail->isHTML(true);                                  //Set email format to HTML
-                    $mail->Subject = 'password reset request';
+                            //Content
+                            $mail->isHTML(true);                                  //Set email format to HTML
+                            $mail->Subject = 'password reset request';
 
-  /*                   $file = fopen("../view/BodyEmail.php","r");
-                    $str = fread($file, filesize("../view/BodyEmail.php"));
-                    $str = trim($str);
-                    fclose($file); */
+        /*                   $file = fopen("../view/BodyEmail.php","r");
+                            $str = fread($file, filesize("../view/BodyEmail.php"));
+                            $str = trim($str);
+                            fclose($file); */
 
-                    $mail->Body    = $emailBody;
-                    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+                            $mail->Body    = $emailBody;
+                            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-                    $mail->send();
-                    echo 'Correo enviado con éxito.';
-                } catch (Exception $e) {
-                    echo "Error al enviar: {$mail->ErrorInfo}";
+                            $mail->send();
+                            echo 'Correo enviado con éxito.';
+                        } catch (Exception $e) {
+                            echo "Error al enviar: {$mail->ErrorInfo}";
+                        }
+                }else{
+                    echo "fallo";
                 }
     }
 }
