@@ -161,7 +161,7 @@ $expiraEnTexto = $expiracion->format('H:i'); // Hora en formato 24h (por ejemplo
             
             <p>Este código expirará a las <strong><?= $expiraEnTexto ?> (hora local)</strong>.</p>
             
-            <a href="#" class="btn">Restablecer contraseña</a>
+            <a href="<?php echo BASE_URL?>update_password" class="btn">Restablecer contraseña</a>
             
             <div class="divider"></div>
             
