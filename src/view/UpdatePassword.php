@@ -1,10 +1,5 @@
 
-<?php
 
-
-
-
-?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -226,8 +221,8 @@ a {
         </div>
     </div>
 
-
-  <script src="<?php echo  BASE_URL;?>src/view/js/principal.js"> </script>
+<script src="<?php echo  BASE_URL;?>src/view/js/principal.js"> </script>
+  
 
 </body>
 </html>
