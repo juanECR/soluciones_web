@@ -91,7 +91,7 @@ $expiraEnTexto = $expiracion->format('H:i'); // Hora en formato 24h (por ejemplo
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #6366f1, #a855f7);
-            color: white;
+            color: white,none;
             padding: 12px 30px;
             border-radius: 50px;
             text-decoration: none;
@@ -155,13 +155,9 @@ $expiraEnTexto = $expiracion->format('H:i'); // Hora en formato 24h (por ejemplo
             <p>Hola, <?= htmlspecialchars($nombre_usuario)?></p>
             <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta. Ingresa el siguiente código de verificación para continuar con el proceso:</p>
             
-
-            <div class="token-box"> <b>Token de Sesion: </b> <?= htmlspecialchars($token) ?></div>
-            <div class="id-box"><b>Id usuario: </b> <?= htmlspecialchars($id_usuario) ?></div>
-            
             <p>Este código expirará a las <strong><?= $expiraEnTexto ?> (hora local)</strong>.</p>
             
-            <a href="<?php echo BASE_URL?>UpdatePassword?sesion=<?php echo $id_sesion?>&token=<?php echo $token?>" class="btn">Restablecer contraseña</a>
+            <a href="<?php echo BASE_URL?>UpdatePassword?data=<?php echo $id_usuario?>&data2=<?php echo $token?>" class="btn">Restablecer contraseña</a>
             
             <div class="divider"></div>
             

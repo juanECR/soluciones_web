@@ -168,3 +168,37 @@ function cargar_sede_filtro(sedes) {
 
 
 // ------------------------------------------- FIN DE DATOS DE CARGA PARA FILTRO DE BUSQUEDA -----------------------------------------------
+
+async function validar_datos_reset_password(){
+    let id = document.getElementById('data').value;
+    let token = document.getElementById('data2').value;
+
+        const formData = new FormData();
+        formData.append('id',id);
+        formData.append('token',token);
+            try {
+                let respuesta = await fetch(base_url_server + 'src/control/Usuario.php?tipo=validar_datos_reset_password', {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    body: formData
+                });
+                let json = await respuesta.json();
+                if (json.status) {
+                    let datos = json.contenido;
+                    let contenido = '';
+                    let sede = '';
+                    datos.forEach(item => {
+                        if (id_ies == item.id) {
+                            sede = item.nombre;
+                        }
+                        contenido += `<button href="javascript:void(0);" class="dropdown-item notify-item" onclick="actualizar_ies_menu(${item.id});">${item.nombre}</button>`;
+                    });
+                    document.getElementById('contenido_menu_ies').innerHTML = contenido;
+                    document.getElementById('menu_ies').innerHTML = sede;
+                }
+                //console.log(respuesta);
+            } catch (e) {
+                console.log("Error al cargar categorias" + e);
+            }
+}

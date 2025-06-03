@@ -4,7 +4,7 @@ class vistaModelo
     protected static function obtener_vista($vista)
     {
 
-        $palabras_permitidas_n1 = ['inicio', 'usuarios', 'nuevo-usuario', 'instituciones', 'nueva-institucion', 'ambientes', 'nuevo-ambiente', 'bienes',  'nuevo-bien', 'movimientos', 'nuevo-movimiento','UpdatePassword'];
+        $palabras_permitidas_n1 = ['inicio', 'usuarios', 'nuevo-usuario', 'instituciones', 'nueva-institucion', 'ambientes', 'nuevo-ambiente', 'bienes',  'nuevo-bien', 'movimientos', 'nuevo-movimiento'];
 
         if (in_array($vista, $palabras_permitidas_n1)) {
 
@@ -15,9 +15,11 @@ class vistaModelo
             }
         } elseif ($vista == "inicio" || $vista == "index") {
             $contenido = "inicio.php";
-        } elseif ($vista == "login") {
+        } elseif ($vista == "login" ) {
             $contenido = "login";
-        } else {
+        } elseif($vista == "UpdatePassword"){
+              $contenido = "UpdatePassword";
+        }else {
             $contenido = "404";
         }
 
