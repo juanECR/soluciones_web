@@ -1,3 +1,12 @@
+
+<?php
+$sesion = $_GET['sesion'];
+$token = $_GET['token'];
+
+print_r($sesion);
+print_r($token);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,28 +14,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cambiar Contraseña</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
     .form-container {
+      
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: white;
       padding: 40px 30px;
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 400px;
+      margin: 20px auto;
     }
 
     .form-container h2 {
@@ -95,6 +92,8 @@
   <div class="form-container">
     <h2>Cambiar Contraseña</h2>
     <form id="changePasswordForm">
+      <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+      <input type="hidden" name="id" value="<?= htmlspecialchars($sesion) ?>">
       <div class="form-group">
         <label for="currentPassword">Contraseña Actual</label>
         <input type="password" id="currentPassword" name="currentPassword" required minlength="6" />
