@@ -8,11 +8,20 @@ class vistasControlador extends vistaModelo
     {
         return require_once "./src/view/plantilla.php";
     }
-/*     public function obtenerVistaControlador()
+   public function obtenerVistaControlador()
     {
 
         if (!isset($_SESSION['sesion_id'])) {
-            $respuesta = "login";
+            if (isset($_GET['views'])) {
+                $ruta = explode("/", $_GET['views']);
+                if ($ruta[0]=="UpdatePassword") {
+                    $respuesta = "UpdatePassword";
+                }else {
+                    $respuesta = "login";
+                }
+            } else {
+                $respuesta = "login";
+            }
         } else {
         if (isset($_GET['views'])) {
             $ruta = explode("/", $_GET['views']);
@@ -22,27 +31,6 @@ class vistasControlador extends vistaModelo
         }
         }
         return $respuesta;
-    } */
-   public function obtenerVistaControlador()
-{
-    // Vistas que NO requieren sesión
-    $vistasPublicas = ['login', 'UpdatePassword'];
-
-    if (isset($_GET['views'])) {
-        $ruta = explode("/", $_GET['views']);
-        $vistaSolicitada = $ruta[0];
-
-        // Permitir vistas públicas sin sesión
-        if (!isset($_SESSION['sesion_id']) && !in_array($vistaSolicitada, $vistasPublicas)) {
-            $respuesta = "login";
-        } else {
-            $respuesta = vistaModelo::obtener_vista($vistaSolicitada);
-        }
-    } else {
-        $respuesta = "inicio.php";
-    }
-
-    return $respuesta;
-}
+    } 
 
 }

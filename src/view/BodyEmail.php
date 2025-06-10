@@ -2,6 +2,9 @@
 <?php
 $expiracion = new DateTime('+10 minutes');
 $expiraEnTexto = $expiracion->format('H:i'); // Hora en formato 24h (por ejemplo, 14:32)
+
+$tokenn = urlencode($token)
+
 ?>
 
 <!DOCTYPE html>
@@ -157,7 +160,7 @@ $expiraEnTexto = $expiracion->format('H:i'); // Hora en formato 24h (por ejemplo
             
             <p>Este código expirará a las <strong><?= $expiraEnTexto ?> (hora local)</strong>.</p>
             
-            <a href="<?php echo BASE_URL?>UpdatePassword?data=<?php echo $id_usuario?>&data2=<?php echo $token?>" class="btn">Restablecer contraseña</a>
+            <a href="<?php echo BASE_URL?>UpdatePassword/?data=<?php echo $id_usuario?>&data2=<?php echo $tokenn?>" class="btn">Restablecer contraseña</a>
             
             <div class="divider"></div>
             

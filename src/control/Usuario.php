@@ -41,6 +41,7 @@ if($tipo == "validar_datos_reset_password"){
    echo json_encode($arr_Respuesta);
 }
 
+
 if ($tipo == "listar_usuarios_ordenados_tabla") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {

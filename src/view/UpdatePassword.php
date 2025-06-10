@@ -2,7 +2,7 @@
 <?php
 
 $data  = $_GET['data']  ?? null;
-$data2 = $_GET['data2'] ?? null;
+$data2 = urldecode($_GET['data2']) ?? null;
 
 // Validar y sanitizar
 $data  = htmlspecialchars($data);
@@ -16,6 +16,11 @@ $data2 = htmlspecialchars($data2);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
+   <link href="<?php echo BASE_URL ?>src/view/pp/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script>
+      const base_url = '<?php echo BASE_URL; ?>';
+      const base_url_server = '<?php echo BASE_URL_SERVER; ?>';
+    </script>
     <style>
 body{
   width: 100%;
@@ -160,13 +165,13 @@ body{
     <p>Ingresa una contraseña segura</p>
   </div>
   <div class="create-account-content">
-    <form>
+    <form id="reset_pass_form">
       <input class="input" type="hidden" id="data" name="data" value="<?php echo $data ?>">
       <input class="input" type="hidden" id="data2" name="data2" value="<?php echo $data2 ?>">
-      <input type="text" id="newPassword" name="newPassword" placeholder="Nueva contraseña" />
-      <input type="text" id="newPassword2" name="newPassword2" placeholder="Repetir Contraseña" />
+      <input type="password" id="Password" name="Password" placeholder="Nueva contraseña" />
+      <input type="password" id="Password1" name="Password1" placeholder="Repetir Contraseña" />
 
-      <input type="submit" value="Cambiar contraseña" />
+      <input type="button" value="Cambiar contraseña" onclick="validar_inputs_password();" />
     </form>
     <p class="create-account-continue-with">Or continue with</p>
     <button class="create-account-gmail">
@@ -190,11 +195,13 @@ body{
     <a href="">Privacy Policy</a>.
   </p>
 </div>
-
-
+<script src="<?php echo BASE_URL ?>src/view/pp/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="<?php echo  BASE_URL;?>src/view/js/principal.js"></script>
+<script>
+  validar_datos_reset_password();
+</script>
 </body>
 </html>
-<script src="<?php echo  BASE_URL;?>src/view/js/principal.js"> </script>
 
 
 
