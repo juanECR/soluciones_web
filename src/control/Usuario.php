@@ -21,6 +21,14 @@ $objAdmin = new AdminModel();
 $id_sesion = $_POST['sesion'];
 $token = $_POST['token'];
 
+//falta
+if($tipo == "restablecer_password"){
+            $id = $_POST['id'];
+            $apellidos_nombres = $_POST['apellidos_nombres'];
+            $correo = $_POST['correo'];
+            $telefono = $_POST['telefono'];
+}
+
 if($tipo == "validar_datos_reset_password"){
    $id_email = $_POST['id'];
    $token_email = $_POST['token'];

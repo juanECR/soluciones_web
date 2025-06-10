@@ -185,7 +185,7 @@ async function validar_datos_reset_password(){
                 });
                 let json = await respuesta.json();
                 if (json.status) {
-                    let datos = json.contenido;
+  /*                   let datos = json.contenido;
                     let contenido = '';
                     let sede = '';
                     datos.forEach(item => {
@@ -195,10 +195,64 @@ async function validar_datos_reset_password(){
                         contenido += `<button href="javascript:void(0);" class="dropdown-item notify-item" onclick="actualizar_ies_menu(${item.id});">${item.nombre}</button>`;
                     });
                     document.getElementById('contenido_menu_ies').innerHTML = contenido;
-                    document.getElementById('menu_ies').innerHTML = sede;
+                    document.getElementById('menu_ies').innerHTML = sede; */
                 }
                 //console.log(respuesta);
             } catch (e) {
                 console.log("Error al cargar categorias" + e);
             }
 }
+
+
+/* async function resetPassword(newPassword,id,token) {
+    let newPassword = document.getElementById('newPassword').value;
+    let newPassword2 = document.getElementById('newPassword2').value;
+
+    if (newPassword != newPassword2) {
+          Swal.fire({
+                type: 'error',
+                title: 'Contraseña no coincide',
+                text: 'no coincide',
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                confirmButtonText: "Aceptar"
+            });
+    }
+        // generamos el formulario
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('token', token_token);
+    formData.append('newPassword',newPassword);
+
+    try {
+        let respuesta = await fetch(base_url_server + 'src/control/Usuario.php?tipo=restablecer_password', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: formData
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            Swal.fire({
+                type: 'success',
+                title: 'Actualizar',
+                text: json.mensaje,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                confirmButtonText: "Aceptar"
+            });
+        }else {
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: json.mensaje,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                timer: 1000
+            })
+        }
+        //console.log(json);
+    } catch (e) {
+        console.log("Error al actualizar periodo" + e);
+    }
+} */
