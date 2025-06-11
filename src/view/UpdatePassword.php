@@ -155,14 +155,18 @@ body{
   height: 20px;
 }
 
+.invalid{
+  display: none;
+}
+
     </style>
 </head>
 <body>
 <!-- From Uiverse.io by xerith_8140 --> 
 <div class="create-account-container">
   <div class="create-account-header">
-    <h2>Restablecer Contraseña</h2>
-    <p>Ingresa una contraseña segura</p>
+    <h2 class="texr-p">Restablecer Contraseña</h2>
+    <p class="texr-p">Ingresa una contraseña segura</p>
   </div>
   <div class="create-account-content">
     <form id="reset_pass_form">
@@ -173,8 +177,8 @@ body{
 
       <input type="button" value="Cambiar contraseña" onclick="validar_inputs_password();" />
     </form>
-    <p class="create-account-continue-with">Or continue with</p>
-    <button class="create-account-gmail">
+    <p class="create-account-continue-with texr-p">o continuar con</p>
+    <button class="create-account-gmail" id="button_r_pass">
       <svg
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"

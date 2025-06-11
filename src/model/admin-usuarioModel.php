@@ -62,6 +62,7 @@ class UsuarioModel
         $sql = $sql->fetch_object();
         return $sql;
     }
+
     public function buscarUsuarioByDniCorreo($dni, $correo)
     {
         $sql = $this->conexion->query("SELECT * FROM usuarios WHERE dni='$dni' AND correo='$correo'");

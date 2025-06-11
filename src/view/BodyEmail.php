@@ -94,7 +94,7 @@ $tokenn = urlencode($token)
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #6366f1, #a855f7);
-            color: white,none;
+            color: #ffffff;
             padding: 12px 30px;
             border-radius: 50px;
             text-decoration: none;
@@ -150,13 +150,13 @@ $tokenn = urlencode($token)
             <div class="header-icon">
               <img src="https://play-lh.googleusercontent.com/UrTU6h_78zYb6l4mk_vE74cDSm9xlCq5AbLVXBNvbYiw8YlOxIP0AcW98SMk5l5pEQ" alt="logo">
             </div>
-            <h1>Código de verificación</h1>
+            <h1>Restablecer constraseña</h1>
             <p>Hemos recibido tu solicitud para restablecer la contraseña</p>
         </div>
         
         <div class="content">
             <p>Hola, <?= htmlspecialchars($nombre_usuario)?></p>
-            <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta. Ingresa el siguiente código de verificación para continuar con el proceso:</p>
+            <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta. Ingresa el siguiente enlace para continuar con el proceso:</p>
             
             <p>Este código expirará a las <strong><?= $expiraEnTexto ?> (hora local)</strong>.</p>
             
@@ -164,7 +164,7 @@ $tokenn = urlencode($token)
             
             <div class="divider"></div>
             
-            <p class="help-text">Si no solicitaste este código, por favor ignora este correo o contacta a nuestro servicio de soporte si tienes alguna duda.</p>
+            <p class="help-text">Si no solicitaste restablecer tu contraseña, por favor ignora este correo o contacta a nuestro servicio de soporte si tienes alguna duda.</p>
         </div>
         
         <div class="footer">
@@ -189,9 +189,9 @@ $tokenn = urlencode($token)
                     </td>
                 </tr>
                 </table>
-            <p>© 2025 Tu Empresa. Todos los derechos reservados.</p>
+            <p>© 2025 sisdoc. Todos los derechos reservados.</p>
             <p>Si tienes problemas con el enlace de arriba, copia y pega la siguiente URL en tu navegador:</p>
-            <p>https://tuempresa.com/restablecer-contrasena</p>
+            <p>https://sisdoc.limon-cito.com</p>
         </div>
     </div>
 </body>

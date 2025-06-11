@@ -23,10 +23,39 @@ $token = $_POST['token'];
 
 //falta
 if($tipo == "restablecer_password"){
+
+        $arr_Respuesta = array('status' => false, 'msg' => 'Error al restablecer');
+
+        if ($_POST) {
             $id = $_POST['id'];
-            $apellidos_nombres = $_POST['apellidos_nombres'];
-            $correo = $_POST['correo'];
-            $telefono = $_POST['telefono'];
+            $NewPassword = $_POST['password'];
+            $hashedPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
+
+            if ($id == "" || $NewPassword == "") {
+                $arr_Respuesta = array('status' => false, 'mensaje' => 'Error, campos vacíos');
+            } else {
+                //validar si existe el usuario con ese id
+                $arr_Usuario = $objUsuario->buscarUsuarioById($id);
+                if ($arr_Usuario){
+                    $operacion = $objUsuario->actualizarPassword($id, $hashedPassword);
+                    if ($operacion) {
+                        $tokenVacio = "";
+                        $nuevoEstado = 0;
+                        $operacion2 = $objUsuario->UpdateResetPassword($id, $tokenVacio, $nuevoEstado);
+                        if (!$operacion2) {
+                           $arr_Respuesta = array('status' => false, 'mensaje' => 'Error al limpiar token');
+                        }
+                        $arr_Respuesta = array('status' => true, 'mensaje' => 'Actualizado correctamente');
+                    } else {
+                        $arr_Respuesta = array('status' => false, 'mensaje' => 'Fallo al actualizar');
+                    }
+                    
+                } else {
+                   $arr_Respuesta = array('status' => false, 'mensaje' => 'Error, usuario no existe');
+                }
+            }
+        }
+         echo json_encode($arr_Respuesta);
 }
 
 if($tipo == "validar_datos_reset_password"){
@@ -40,8 +69,6 @@ if($tipo == "validar_datos_reset_password"){
    }
    echo json_encode($arr_Respuesta);
 }
-
-
 if ($tipo == "listar_usuarios_ordenados_tabla") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {

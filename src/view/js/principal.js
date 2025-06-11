@@ -187,17 +187,14 @@ async function validar_datos_reset_password(){
                 });
                 let json = await respuesta.json();
                 if (json.status == false) {
-                   Swal.fire({
-                    type: 'error',
-                    title: 'link caducado',
-                    text: 'link caducado verifique su correo',
-                    confirmButtonClass: 'btn btn-confirm mt-2',
-                    footer: '',
-                    timer: 1000
-                     });
-                     let formulario = document.getElementById('reset_pass_form');
-                     formulario.innerHTML = '<span style='+'color: white;'+'>Este link ha caducado</span>';
-                    //  location.replace(base_url + 'login')
+                     //modificacion del formulario cuando link esta caducado
+                      const text_r_P = document.querySelectorAll('.texr-p');
+                      text_r_P.forEach(text => {
+                      text.style.display = 'none'; });
+                      let botonrp = document.getElementById('button_r_pass');
+                      botonrp.innerHTML = '<a href="../login"> Iniciar sesion </a>';
+                      let formulario = document.getElementById('reset_pass_form');
+                      formulario.innerHTML = '<span style="color: white;">Este link ha caducado</span>';
                 }
                 console.log(respuesta);
             } catch (e) {
@@ -229,14 +226,44 @@ function validar_inputs_password(){
             });
             return;
     } else {
-        actualizar_password();
+        actualizar_password(pass1);
     }
     
 }
-async function actualizar_password() {
+async function actualizar_password(password) {
       //enviar informacion de password y id al controlador usuario
-      // recibir infomacion y encriptar la nueva contraseña
-      // guardar en base de datos y actualizar cmpo de reset password =0 y token passord = ''
+      // recibir infomacion y encriptar la nueva contraseña - controlador
+      // guardar en base de datos y actualizar campo de reset password =0 y token passord = ''
       //notificacion a usuario sobre sobr el estado del proceso.
+        let id = document.getElementById('data').value;
+        const formData = new FormData();
+        formData.append('id',id);
+        formData.append('password',password);
+        formData.append('sesion','');
+        formData.append('token','');
 
+            try {
+                let respuesta = await fetch(base_url_server+'src/control/Usuario.php?tipo=restablecer_password', {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    body: formData
+                });
+                let json = await respuesta.json();
+                if (json.status) {
+                    Swal.fire({
+                        type: 'success', 
+                        title: '¡Éxito!',
+                        text: 'Tu contraseña ha sido actualizada correctamente.',
+                        confirmButtonText: 'Aceptar',
+                        customClass: {confirmButton: 'btn btn-confirm mt-2'},
+                        allowOutsideClick: false 
+                        })
+                        location.reload();
+
+                }
+                //console.log(respuesta);
+            } catch (e) {
+                console.log("Error " + e);
+            }
 }
