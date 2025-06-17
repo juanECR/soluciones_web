@@ -31,6 +31,6 @@ class vistasControlador extends vistaModelo
         }
         }
         return $respuesta;
-    } 
+    }
 
 }
