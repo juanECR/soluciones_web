@@ -208,8 +208,20 @@ if ($tipo == "datos_registro") {
 }
 
 if($tipo == "buscar_movimiento_id"){
-
+   
  if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
-    
+    $id_movimiento = $_REQUEST['data'];
+    $arr_Movimiento = $objMovimiento->buscarMovimientoById($id_movimiento);
+
+    $id_ambiente = $arr_Movimiento->id_ambiente_origen;
+    $id_usuario = $arr_Movimiento->id_usuario_registro;
+    $id_ambiente_destino = $arr_Movimiento->id_ambiente_destino;
+    $id_ies = $arr_Movimiento->id_ies;
+
+    $arrAmbOrigen = $objAmbiente->buscarAmbienteById($id_ambiente);
+    $arrAmbDestino = $objAmbiente->buscarAmbienteByInstitucion($id_ies);
+    $arries = $objInstitucion->buscarInstitucionById($id_ies);
+    $arrUsuario = $objUsuario->buscarUsuarioById($id_usuario);
  }
+ echo json_encode($arrAmbOrigen);
 }
