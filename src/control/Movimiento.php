@@ -222,6 +222,11 @@ if($tipo == "buscar_movimiento_id"){
     $arrAmbDestino = $objAmbiente->buscarAmbienteByInstitucion($id_ies);
     $arries = $objInstitucion->buscarInstitucionById($id_ies);
     $arrUsuario = $objUsuario->buscarUsuarioById($id_usuario);
+
+    $arr_Respuesta['ambiente_origen'] = $arrAmbOrigen;
+    $arr_Respuesta['ambiente_destino'] = $arrAmbDestino;
+    $arr_Respuesta['institucion'] = $arries;
+    $arr_Respuesta['usuario'] = $arrUsuario;
  }
- echo json_encode($arrAmbOrigen);
+ echo json_encode($arr_Respuesta);
 }
