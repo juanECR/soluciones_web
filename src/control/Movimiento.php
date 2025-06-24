@@ -208,7 +208,7 @@ if ($tipo == "datos_registro") {
 }
 
 if($tipo == "buscar_movimiento_id"){
-   
+   $arr_Respuesta = array('status'=>false, 'msg'=>'error');
  if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
     $id_movimiento = $_REQUEST['data'];
     $arr_Movimiento = $objMovimiento->buscarMovimientoById($id_movimiento);
@@ -219,14 +219,26 @@ if($tipo == "buscar_movimiento_id"){
     $id_ies = $arr_Movimiento->id_ies;
 
     $arrAmbOrigen = $objAmbiente->buscarAmbienteById($id_ambiente);
-    $arrAmbDestino = $objAmbiente->buscarAmbienteByInstitucion($id_ies);
+    $arrAmbDestino = $objAmbiente->buscarAmbienteById($id_ambiente_destino);
     $arries = $objInstitucion->buscarInstitucionById($id_ies);
     $arrUsuario = $objUsuario->buscarUsuarioById($id_usuario);
+    $DetalleMovimiento =  $objMovimiento->buscarDetalle_MovimientoByMovimiento($id_movimiento);
+    $arr_bien = array();
+    foreach ($DetalleMovimiento as $objeto) {
+        $id_bien = $objeto->id_bien;
+        $res_Bien = $objBien->buscarBienById($id_bien);
+        $ress_bien = array_push($res_Bien);
+        $arr_bien = $ress_bien;
+    };
 
+    $arr_Respuesta['movimiento'] = $arr_Movimiento;
     $arr_Respuesta['ambiente_origen'] = $arrAmbOrigen;
     $arr_Respuesta['ambiente_destino'] = $arrAmbDestino;
-    $arr_Respuesta['institucion'] = $arries;
+    $arr_Respuesta['bien'] = $arr_Bien;
     $arr_Respuesta['usuario'] = $arrUsuario;
+    $arr_Respuesta['institucion'] = $arries;
+    $arr_Respuesta['status'] = true;
+    $arr_Respuesta['msg'] = 'correcto';
  }
  echo json_encode($arr_Respuesta);
 }
