@@ -223,18 +223,17 @@ if($tipo == "buscar_movimiento_id"){
     $arries = $objInstitucion->buscarInstitucionById($id_ies);
     $arrUsuario = $objUsuario->buscarUsuarioById($id_usuario);
     $DetalleMovimiento =  $objMovimiento->buscarDetalle_MovimientoByMovimiento($id_movimiento);
-    $arr_bien = array();
-    foreach ($DetalleMovimiento as $objeto) {
+     $arr_bien = array();
+   foreach ($DetalleMovimiento as $objeto) {
         $id_bien = $objeto->id_bien;
         $res_Bien = $objBien->buscarBienById($id_bien);
-        $ress_bien = array_push($res_Bien);
-        $arr_bien = $ress_bien;
+        array_push($arr_bien, $res_Bien);
     };
 
     $arr_Respuesta['movimiento'] = $arr_Movimiento;
     $arr_Respuesta['ambiente_origen'] = $arrAmbOrigen;
     $arr_Respuesta['ambiente_destino'] = $arrAmbDestino;
-    $arr_Respuesta['bien'] = $arr_Bien;
+    $arr_Respuesta['bien'] = $arr_bien;
     $arr_Respuesta['usuario'] = $arrUsuario;
     $arr_Respuesta['institucion'] = $arries;
     $arr_Respuesta['status'] = true;
