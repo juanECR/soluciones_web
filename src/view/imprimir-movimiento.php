@@ -32,10 +32,10 @@ public function Header() {
     $this->SetFont('helvetica', '', 9);
     $this->Cell(0, 5, 'DIRECCION DE ADMINISTRACION', 0, 1, 'C');
     
-    // --- DIBUJO DE LÍNEAS CON FUNCIONES NATIVAS (LA SOLUCIÓN) ---
+    // --- DIBUJO DE LÍNEAS CON FUNCIONES NATIVAS---
 
     // Parámetros para las líneas
-    $lineWidth = 140; // Ancho de las líneas en mm. Ajústalo si es necesario.
+    $lineWidth = 140; 
     $pageWidth = $this->getPageWidth();
     $x = ($pageWidth - $lineWidth) / 2; // Calcula la posición X para centrar las líneas
     
@@ -62,6 +62,7 @@ public function Header() {
 }
 public function Footer() {
     $this->SetY(-20);
+    $this->SetX(120);
     $this->SetFont('helvetica', '', 8);
     $footer_html = '
     <table border="0" cellpadding="1" cellspacing="0" width="100%">
