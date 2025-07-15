@@ -174,18 +174,15 @@ public function Footer() {
       text-align: center;
       padding: 6px;
     }
-    .firma {
-      margin-top: 80px;
-      display: flex;
-      padding: 0 50px;
-    }
-    .firma div {
-      text-align: center;
-    }
     .fecha {
       margin-top: 30px;
       text-align: right;
     }
+
+    .firma-section tr td{
+       border: none;
+      }
+
   </style>
 </head>
 <body>
@@ -235,17 +232,22 @@ public function Footer() {
   <div class="fecha">
     Ayacucho, '. $dia . " de " . $meses[$mesNumero] . " del " . $año.'
   </div>
-
-  <div class="firma">
+<table  class="firma-section">
+  <tr>
+  <td>
     <div>
       ------------------------------<br>
       ENTREGUÉ CONFORME
     </div>
+    </td>
+    <td>
     <div>
       ------------------------------<br>
       RECIBÍ CONFORME
     </div>
-  </div>
+    </td>
+   </tr>
+  </table>
 
 </body>
 </html>';
