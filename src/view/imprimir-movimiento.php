@@ -9,12 +9,9 @@ if (!isset($ruta[1]) || $ruta[1] == "") {
 
 require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
 
-// 2. CREAR UNA CLASE PERSONALIZADA QUE EXTIENDE DE TCPDF
 class MYPDF extends TCPDF {
 
-    // Método para el encabezado personalizado
 public function Header() {
-    // --- RUTA ABSOLUTA A LAS IMÁGENES JPG ---
     $image_path_dre = __DIR__ . '/images/gobayacucho.jpg';
     $image_path_goba = __DIR__ . '/images/dreaya.jpg';
 
@@ -60,6 +57,7 @@ public function Header() {
     // Dibujamos este logo al final para asegurarnos que esté en la capa superior si se solapa.
     $this->Image($image_path_goba, 170, 8, 25, 0, 'JPG', '', 'T', false, 300, 'R', false, false, 0, false, false, false);
 }
+
 public function Footer() {
     $this->SetY(-20);
     $this->SetX(120);
