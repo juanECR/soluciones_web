@@ -241,9 +241,10 @@ $arr_bienes = $objBien->listarBienes();
             $ingreso = $objIngreso->buscarIngresoBienbyId($arr_bienes[$i]->id_ingreso_bienes);
             $ambiente = $objAmbiente->buscarAmbienteById($arr_bienes[$i]->id_ambiente);
             $usuario = $objUsuario->buscarUsuarioById($arr_bienes[$i]->usuario_registro);
+
             $arr_bienes[$i]->usuarioregistro = $usuario->nombres_apellidos;
             $arr_bienes[$i]->ambiente = $ambiente->detalle;
-            $arr_bienes[$i]->ingreso = $ingreso->detalle;
+            $arr_bienes[$i]->ingresonombre = $ingreso->detalle;
         }
 
        

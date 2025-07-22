@@ -423,7 +423,6 @@ if($ruta[1] == "imprBienes"){
     } else {
        $respuest = json_decode($response);
 
-
        $bienes = $respuest->bienes;
 
         $new_Date = new DateTime();
@@ -510,7 +509,7 @@ if($ruta[1] == "imprBienes"){
         foreach ($bienes as $bien) {
              $contenido_pdf .= '<tr>';
              $contenido_pdf .=  "<td>".  $contador . "</td>";
-             $contenido_pdf .=  "<td>".  $bien->detalle . "</td>";
+             $contenido_pdf .=  "<td>".  $bien->ingresonombre . "</td>";
              $contenido_pdf .= "<td>" .  $bien->ambiente . "</td>";
              $contenido_pdf .=  "<td>".  $bien->cod_patrimonial . "</td>";
              $contenido_pdf .=  "<td>".  $bien->denominacion. "</td>";
