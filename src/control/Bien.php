@@ -5,6 +5,7 @@ require_once('../model/admin-bienModel.php');
 require_once('../model/admin-ingresoModel.php');
 require_once('../model/admin-ambienteModel.php');
 require_once('../model/adminModel.php');
+require_once('../model/admin-usuarioModel.php');
 $tipo = $_GET['tipo'];
 
 //instanciar la clase categoria model
@@ -13,6 +14,7 @@ $objBien = new BienModel();
 $objIngreso = new IngresoModel();
 $objAmbiente = new AmbienteModel();
 $objAdmin = new AdminModel();
+$objUsuario = new UsuarioModel();
 
 //variables de sesion
 $id_sesion = $_REQUEST['sesion'];
@@ -232,6 +234,18 @@ if ($tipo == "listarBienes") {
         $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)){
         $arr_Bienes = $objBien->listarBienes();
+    
+        for ($i=0; $i < count($arr_Bienes); $i++) { 
+           $ingresoBienes = $objIngreso->buscarIngresoById($arr_Bienes[$i]->id_ingreso_bienes);
+           $ambiente = $objAmbiente->buscarAmbienteById($arr_Bienes[$i]->id_ambiente);
+           $usuario = $objUsuario->buscarUsuarioById($arr_Bienes[$i]->usuario_registro);
+
+           $arr_Bienes[$i]->ingresonombre = $ingresoBienes->detalle;
+           $arr_Bienes[$i]->ambientenombre = $ambiente->detalle;
+           $arr_Bienes[$i]->usuarionombre = $usuario->nombres_apellidos;
+
+        }
+
         $arr_Respuesta['bienes'] = $arr_Bienes;
         $arr_Respuesta['status'] = true;
         $arr_Respuesta['msg'] = 'correcto';
