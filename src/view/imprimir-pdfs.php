@@ -567,8 +567,329 @@ if($ruta[1] == "imprBienes"){
 }
 //imprimir movimientos
 if ($ruta[1] == "imprMovimientos") {
-    
+      $curl = curl_init(); 
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => BASE_URL_SERVER."src/control/Movimiento.php?tipo=ListarMovimientos&sesion=".$_SESSION['sesion_id']."&token=".$_SESSION['sesion_token'],
+        CURLOPT_RETURNTRANSFER => true, 
+        CURLOPT_FOLLOWLOCATION => true, 
+        CURLOPT_ENCODING => "", 
+        CURLOPT_MAXREDIRS => 10, 
+        CURLOPT_TIMEOUT => 30, 
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1, 
+        CURLOPT_CUSTOMREQUEST => "GET", 
+        CURLOPT_HTTPHEADER => array(
+            "x-rapidapi-host: ".BASE_URL_SERVER,
+            "x-rapidapi-key: XXXX"
+        ), 
+    )); 
+    $response = curl_exec($curl); 
+    $err = curl_error($curl); 
+    curl_close($curl); 
+    if ($err) {
+        echo "cURL Error #:" . $err; 
+    } else {
+       $respuest = json_decode($response);
+
+       $movimientos = $respuest->movimientos;
+
+        $new_Date = new DateTime();
+        $dia = $new_Date->format('d');
+        $año = $new_Date->format('Y');
+        $mesNumero = (int)$new_Date->format('n'); 
+        $meses = [1 => 'Enero',2 => 'Febrero',3 => 'Marzo', 4 => 'Abril',5 => 'Mayo', 6 => 'Junio', 7 => 'Julio',8 => 'Agosto',9 => 'Septiembre',10 => 'Octubre',11 => 'Noviembre', 12 => 'Diciembre'];
+
+       $contenido_pdf = '';
+
+       $contenido_pdf .= '<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Papeleta de Rotación de ambientes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    h2 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .info {
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    .info b {
+      display: inline-block;
+      width: 80px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size:9px;
+    }
+    th, td {
+      border: 1px solid black;
+      text-align: center;
+      padding: 6px;
+    }
+    .fecha {
+      margin-top: 30px;
+      text-align: right;
+    }
+
+    .firma-section tr td{
+       border: none;
+      }
+
+  </style>
+</head>
+<body>
+
+  <h2>REPORTE DE MOVIMIENTOS</h2>
+
+  <div class="info">
+    <div><b>ENTIDAD:</b> DIRECCIÓN REGIONAL DE EDUCACIÓN - AYACUCHO</div>
+    <div><b>ÁREA:</b> OFICINA DE ADMINISTRACIÓN</div>
+    <div><b>ORIGEN:</b>N/A</div>
+    <div><b>DESTINO:</b>N/A</div>
+    <div><b>MOTIVO(*):</b>____________</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ITEM</th>
+        <th>AMBIENTE</th>
+        <th>DESTINO</th>
+        <th>USUARIO</th>
+        <th>FECHA REGISTRO</th>
+        <th>DESCRIPCION</th>
+        <th>INSTITUCION</th>
+      </tr>
+    </thead>
+    <tbody>';    
+         $contador = 1;
+        foreach ($movimientos as $movimiento) {
+             $contenido_pdf .= '<tr>';
+             $contenido_pdf .=  "<td>".  $contador . "</td>";
+             $contenido_pdf .=  "<td>".  $movimiento->origenname . "</td>";
+             $contenido_pdf .= "<td>" .  $movimiento->destinoname . "</td>";
+             $contenido_pdf .=  "<td>".  $movimiento->usuarioname . "</td>";
+             $contenido_pdf .=  "<td>".  $movimiento->fecha. "</td>";
+             $contenido_pdf .=  "<td>".  $movimiento->descripcion. "</td>";
+             $contenido_pdf .= "<td>" .  $movimiento->institucionname . "</td>";
+             $contenido_pdf .=  '</tr>';
+             $contador ++;
+        }
+ $contenido_pdf .='  </tbody>
+  </table> 
+
+  <div class="fecha">
+    Ayacucho, '. $dia . " de " . $meses[$mesNumero] . " del " . $año.'
+  </div>
+<table  class="firma-section">
+  <tr>
+  <td>
+    <div>
+      ------------------------------<br>
+      ENTREGUÉ CONFORME
+    </div>
+    </td>
+    <td>
+    <div>
+      ------------------------------<br>
+      RECIBÍ CONFORME
+    </div>
+    </td>
+   </tr>
+  </table>
+
+</body>
+</html>';
+
+        $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Juan Elias');
+        $pdf->SetTitle('REPORTE DE MOVIMIENTOS');
+        $pdf->SetSubject('TCPDF Tutorial');
+        $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+        $pdf->SetMargins(PDF_MARGIN_LEFT, 48, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $pdf->AddPage();
+        $pdf->writeHTML($contenido_pdf, true, false,true,false,'');
+        $pdf->Output('REPORTE_MOVIMIENTOS.pdf', 'I');
+        exit;
+
+    }
 }
 
+if ($ruta[1] == "imprUsuarios") {
+      $curl = curl_init(); 
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => BASE_URL_SERVER."src/control/Usuario.php?tipo=listarUsuarios&sesion=".$_SESSION['sesion_id']."&token=".$_SESSION['sesion_token'],
+        CURLOPT_RETURNTRANSFER => true, 
+        CURLOPT_FOLLOWLOCATION => true, 
+        CURLOPT_ENCODING => "", 
+        CURLOPT_MAXREDIRS => 10, 
+        CURLOPT_TIMEOUT => 30, 
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1, 
+        CURLOPT_CUSTOMREQUEST => "GET", 
+        CURLOPT_HTTPHEADER => array(
+            "x-rapidapi-host: ".BASE_URL_SERVER,
+            "x-rapidapi-key: XXXX"
+        ), 
+    )); 
+    $response = curl_exec($curl); 
+    $err = curl_error($curl); 
+    curl_close($curl); 
+    if ($err) {
+        echo "cURL Error #:" . $err; 
+    } else {
+       $respuest = json_decode($response);
+
+       $usuarios = $respuest->usuarios;
+
+        $new_Date = new DateTime();
+        $dia = $new_Date->format('d');
+        $año = $new_Date->format('Y');
+        $mesNumero = (int)$new_Date->format('n'); 
+        $meses = [1 => 'Enero',2 => 'Febrero',3 => 'Marzo', 4 => 'Abril',5 => 'Mayo', 6 => 'Junio', 7 => 'Julio',8 => 'Agosto',9 => 'Septiembre',10 => 'Octubre',11 => 'Noviembre', 12 => 'Diciembre'];
+
+       $contenido_pdf = '';
+
+       $contenido_pdf .= '<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Papeleta de Rotación de ambientes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    h2 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .info {
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    .info b {
+      display: inline-block;
+      width: 80px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size:9px;
+    }
+    th, td {
+      border: 1px solid black;
+      text-align: center;
+      padding: 6px;
+    }
+    .fecha {
+      margin-top: 30px;
+      text-align: right;
+    }
+
+    .firma-section tr td{
+       border: none;
+      }
+
+  </style>
+</head>
+<body>
+
+  <h2>REPORTE DE USUARIOS</h2>
+
+  <div class="info">
+    <div><b>ENTIDAD:</b> DIRECCIÓN REGIONAL DE EDUCACIÓN - AYACUCHO</div>
+    <div><b>ÁREA:</b> OFICINA DE ADMINISTRACIÓN</div>
+    <div><b>ORIGEN:</b>N/A</div>
+    <div><b>DESTINO:</b>N/A</div>
+    <div><b>MOTIVO(*):</b>____________</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ITEM</th>
+        <th>DNI</th>
+        <th>NOMBRES Y APELLIDOS</th>
+        <th>CORREO</th>
+        <th>TELEFONO</th>
+        <th>ESTADO</th>
+        <th>FECHA REGISTRO</th>
+      </tr>
+    </thead>
+    <tbody>';  
+
+         $contador = 1;
+        foreach ($usuarios as $usuario) {
+               if ($usuario->estado = 1) {
+        $usuario->estado = "activo";
+     } elseif($usuario->estado = 0){
+        $usuario->estado = "inactivo";
+     }
+             $contenido_pdf .= '<tr>';
+             $contenido_pdf .=  "<td>".  $contador . "</td>";
+             $contenido_pdf .=  "<td>".  $usuario->dni . "</td>";
+             $contenido_pdf .= "<td>" .  $usuario->nombres_apellidos . "</td>";
+             $contenido_pdf .=  "<td>".  $usuario->correo . "</td>";
+             $contenido_pdf .=  "<td>".  $usuario->telefono. "</td>";
+             $contenido_pdf .=  "<td>".  $usuario->estado. "</td>";
+             $contenido_pdf .= "<td>" .  $usuario->fecha_registro . "</td>";
+             $contenido_pdf .=  '</tr>';
+             $contador ++;
+        }
+ $contenido_pdf .='  </tbody>
+  </table> 
+
+  <div class="fecha">
+    Ayacucho, '. $dia . " de " . $meses[$mesNumero] . " del " . $año.'
+  </div>
+<table  class="firma-section">
+  <tr>
+  <td>
+    <div>
+      ------------------------------<br>
+      ENTREGUÉ CONFORME
+    </div>
+    </td>
+    <td>
+    <div>
+      ------------------------------<br>
+      RECIBÍ CONFORME
+    </div>
+    </td>
+   </tr>
+  </table>
+
+</body>
+</html>';
+
+        $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Juan Elias');
+        $pdf->SetTitle('REPORTE DE USUARIOS');
+        $pdf->SetSubject('TCPDF Tutorial');
+        $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+        $pdf->SetMargins(PDF_MARGIN_LEFT, 48, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $pdf->AddPage();
+        $pdf->writeHTML($contenido_pdf, true, false,true,false,'');
+        $pdf->Output('REPORTE_USUARIOS.pdf', 'I');
+        exit;
+
+    }
+}
 
 ?>
