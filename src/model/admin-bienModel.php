@@ -93,9 +93,9 @@ class BienModel
     }
     public function listarBienes(){
     $arrRespuesta = array();
-    $sql = $this->conexion->query("SELECT * FROM bienes");
+    $sqle = $this->conexion->query("SELECT * FROM bienes");
 
-    while ($objeto = $sql->fetch_object()) {
+    while ($objeto = $sqle->fetch_object()) {
         array_push($arrRespuesta, $objeto);
     }
     return $arrRespuesta;

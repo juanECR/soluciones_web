@@ -393,6 +393,7 @@ if($ruta[1] == "imprAmbientes"){
         $pdf->AddPage();
         $pdf->writeHTML($contenido_pdf, true, false,true,false,'');
         $pdf->Output('REPORTE_AMBIENTES.pdf', 'I');
+
         exit;
 
     }
@@ -420,9 +421,15 @@ if($ruta[1] == "imprBienes"){
     if ($err) {
         echo "cURL Error #:" . $err; 
     } else {
-       $respuesta = json_decode($response);
 
-       $bienes = $respuesta->bienes;
+/*       echo "<pre>";
+echo htmlspecialchars($response);
+echo "</pre>";
+die(); // Detén la ejecución temporalmente */
+       $respuest = json_decode($response);
+
+
+       $bienes = $respuest->bienes;
 
         $new_Date = new DateTime();
         $dia = $new_Date->format('d');
@@ -509,14 +516,14 @@ if($ruta[1] == "imprBienes"){
              $contenido_pdf .= '<tr>';
              $contenido_pdf .=  "<td>".  $contador . "</td>";
              $contenido_pdf .=  "<td>".  $bien->ingresonombre . "</td>";
-             $contenido_pdf .= "<td>" .  $bien->ambientenombre . "</td>";
+             $contenido_pdf .= "<td>" .  $bien->nombreAmbiente . "</td>";
              $contenido_pdf .=  "<td>".  $bien->cod_patrimonial . "</td>";
              $contenido_pdf .=  "<td>".  $bien->denominacion. "</td>";
              $contenido_pdf .=  "<td>".  $bien->marca. "</td>";
              $contenido_pdf .= "<td>" .  $bien->valor . "</td>";
              $contenido_pdf .=  "<td>".  $bien->estado_conservacion . "</td>";
              $contenido_pdf .=  "<td>".  $bien->fecha_registro. "</td>";
-             $contenido_pdf .=  "<td>".  $bien->usuarionombre. "</td>";
+             $contenido_pdf .=  "<td>".  $bien->nombreUsuario. "</td>";
              $contenido_pdf .=  '</tr>';
              $contador ++;
         }
