@@ -233,14 +233,19 @@ if ($tipo == "datos_registro") {
 if($tipo == "ObtenerTodosBienes"){
    $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
-        $arr_bienes = $objBien->listarBienes();
-                for ($i = 0; $i < count($arr_bienes); $i++) {
-                $ambiente = $objAmbiente->buscarAmbienteById($arr_bienes[$i]->id_ambiente);
-                $usuario = $objUsuario->buscarUsuarioById($arr_bienes[$i]->usuario_registro);
-                // agregamos solo la informacion que se desea enviar a la vista
-                $arr_bienes[$i]->nombreAmbiente = $ambiente->detalle;
-                $arr_bienes[$i]->nombreUsuario = $usuario->nombres_apellidos;
-            }
+
+        
+$arr_bienes = $objBien->listarBienes();
+
+    for ($i=0; $i < count($arr_bienes); $i++) { 
+            $ingreso = $objIngreso->buscarIngresoBienbyId($arr_bienes[$i]->id_ingreso_bienes);
+            $ambiente = $objAmbiente->buscarAmbienteById($arr_bienes[$i]->id_ambiente);
+            $usuario = $objUsuario->buscarUsuarioById($arr_bienes[$i]->usuario_registro);
+            $arr_bienes[$i]->usuarioregistro = $usuario->nombres_apellidos;
+            $arr_bienes[$i]->ambiente = $ambiente->detalle;
+            $arr_bienes[$i]->ingreso = $ingreso->detalle;
+        }
+
        
        $arr_Respuesta['bienes'] = $arr_bienes;
        $arr_Respuesta['status'] = true;

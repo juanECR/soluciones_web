@@ -402,7 +402,7 @@ if($ruta[1] == "imprAmbientes"){
 if($ruta[1] == "imprBienes"){
      $curl = curl_init(); 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => BASE_URL_SERVER."src/control/Bien.php?tipo=listarBienes&sesion=".$_SESSION['sesion_id']."&token=".$_SESSION['sesion_token'],
+        CURLOPT_URL => BASE_URL_SERVER."src/control/Bien.php?tipo=ObtenerTodosBienes&sesion=".$_SESSION['sesion_id']."&token=".$_SESSION['sesion_token'],
         CURLOPT_RETURNTRANSFER => true, 
         CURLOPT_FOLLOWLOCATION => true, 
         CURLOPT_ENCODING => "", 
@@ -421,11 +421,6 @@ if($ruta[1] == "imprBienes"){
     if ($err) {
         echo "cURL Error #:" . $err; 
     } else {
-
-/*       echo "<pre>";
-echo htmlspecialchars($response);
-echo "</pre>";
-die(); // Detén la ejecución temporalmente */
        $respuest = json_decode($response);
 
 
@@ -515,15 +510,15 @@ die(); // Detén la ejecución temporalmente */
         foreach ($bienes as $bien) {
              $contenido_pdf .= '<tr>';
              $contenido_pdf .=  "<td>".  $contador . "</td>";
-             $contenido_pdf .=  "<td>".  $bien->ingresonombre . "</td>";
-             $contenido_pdf .= "<td>" .  $bien->nombreAmbiente . "</td>";
+             $contenido_pdf .=  "<td>".  $bien->detalle . "</td>";
+             $contenido_pdf .= "<td>" .  $bien->ambiente . "</td>";
              $contenido_pdf .=  "<td>".  $bien->cod_patrimonial . "</td>";
              $contenido_pdf .=  "<td>".  $bien->denominacion. "</td>";
              $contenido_pdf .=  "<td>".  $bien->marca. "</td>";
              $contenido_pdf .= "<td>" .  $bien->valor . "</td>";
              $contenido_pdf .=  "<td>".  $bien->estado_conservacion . "</td>";
              $contenido_pdf .=  "<td>".  $bien->fecha_registro. "</td>";
-             $contenido_pdf .=  "<td>".  $bien->nombreUsuario. "</td>";
+             $contenido_pdf .=  "<td>".  $bien->usuarioregistro. "</td>";
              $contenido_pdf .=  '</tr>';
              $contador ++;
         }
